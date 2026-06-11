@@ -1,15 +1,114 @@
-<html>
-<haed>
-<title>
-นางสาวปาลิตา มณีรัตน์
-</title>
- <style>
-  .bigfont{
-   font-size : 72px;
-  }
- </style>
-</haed>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แนะนำตัว - ปีเตอร์</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            max-width: 700px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #6366f1;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .about {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .skills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill {
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
 <body>
- <div class="bigfont">นักเรียน 5/1 ที่รัก</div>
+
+    <div class="card">
+        <img src="https://via.placeholder.com/150" alt="รูปโปรไฟล์" class="profile-img">
+
+        <h1>สวัสดีครับ ผมปีเตอร์ 👋</h1>
+
+        <p class="subtitle">ยินดีต้อนรับสู่เว็บไซต์แนะนำตัวของผม</p>
+
+        <div class="about">
+            <p>
+                ผมชื่อ <strong>ปีเตอร์</strong> สนใจด้านเทคโนโลยี การพัฒนาเว็บไซต์
+                และการเรียนรู้สิ่งใหม่ ๆ อยู่เสมอ
+                ชอบสร้างโปรเจกต์ที่ช่วยแก้ปัญหาและพัฒนาทักษะของตัวเอง
+            </p>
+        </div>
+
+        <div class="skills">
+            <span class="skill">HTML</span>
+            <span class="skill">CSS</span>
+            <span class="skill">JavaScript</span>
+            <span class="skill">Web Design</span>
+            <span class="skill">Technology</span>
+        </div>
+
+        <div class="footer">
+            ติดต่อผมได้ที่: peter@example.com
+        </div>
+    </div>
+
 </body>
 </html>
