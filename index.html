@@ -1,39 +1,242 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แนะนำตัว - ปีเตอร์</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบแจ้งเตือนการรับประทานยา</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:#2c3e50;
+}
+
+.form-box{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    box-sizing:border-box;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.add-btn{
+    background:#27ae60;
+    color:white;
+}
+
+.edit-btn{
+    background:#3498db;
+    color:white;
+}
+
+.delete-btn{
+    background:#e74c3c;
+    color:white;
+}
+
+.card{
+    background:white;
+    margin-top:15px;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+
+.actions{
+    margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>💊 ระบบแจ้งเตือนการรับประทานยา</h1>
+
+<div class="form-box">
+    <input type="text" id="medicineName" placeholder="ชื่อยา">
+    <input type="text" id="medicineDose" placeholder="ขนาดยา เช่น 1 เม็ด">
+    <input type="time" id="medicineTime">
+
+    <button class="add-btn" onclick="addMedicine()">
+        เพิ่มรายการยา
+    </button>
+</div>
+
+<div id="medicineList"></div>
+
+</div>
+
+<script>
+
+let medicines = JSON.parse(localStorage.getItem("medicines")) || [];
+
+function saveData(){
+    localStorage.setItem(
+        "medicines",
+        JSON.stringify(medicines)
+    );
+}
+
+function renderMedicines(){
+
+    const list = document.getElementById("medicineList");
+    list.innerHTML = "";
+
+    medicines.forEach((med,index)=>{
+
+        list.innerHTML += `
+        <div class="card">
+
+            <h3>${med.name}</h3>
+
+            <p><b>ขนาดยา:</b> ${med.dose}</p>
+
+            <p><b>เวลา:</b> ${med.time}</p>
+
+            <div class="actions">
+
+                <button class="edit-btn"
+                onclick="editMedicine(${index})">
+                แก้ไข
+                </button>
+
+                <button class="delete-btn"
+                onclick="deleteMedicine(${index})">
+                ลบ
+                </button>
+
+            </div>
+
+        </div>
+        `;
+    });
+}
+
+function addMedicine(){
+
+    const name =
+        document.getElementById("medicineName").value;
+
+    const dose =
+        document.getElementById("medicineDose").value;
+
+    const time =
+        document.getElementById("medicineTime").value;
+
+    if(name === "" || dose === "" || time === ""){
+        alert("กรุณากรอกข้อมูลให้ครบ");
+        return;
+    }
+
+    medicines.push({
+        name,
+        dose,
+        time
+    });
+
+    saveData();
+    renderMedicines();
+
+    document.getElementById("medicineName").value = "";
+    document.getElementById("medicineDose").value = "";
+    document.getElementById("medicineTime").value = "";
+}
+
+function deleteMedicine(index){
+
+    if(confirm("ต้องการลบรายการนี้หรือไม่?")){
+
+        medicines.splice(index,1);
+
+        saveData();
+        renderMedicines();
+    }
+}
+
+function editMedicine(index){
+
+    let newName =
+        prompt("ชื่อยา", medicines[index].name);
+
+    if(newName === null) return;
+
+    let newDose =
+        prompt("ขนาดยา", medicines[index].dose);
+
+    if(newDose === null) return;
+
+    let newTime =
+        prompt("เวลา (HH:MM)", medicines[index].time);
+
+    if(newTime === null) return;
+
+    medicines[index] = {
+        name:newName,
+        dose:newDose,
+        time:newTime
+    };
+
+    saveData();
+    renderMedicines();
+}
+
+function checkMedicineTime(){
+
+    const now = new Date();
+
+    const currentTime =
+        String(now.getHours()).padStart(2,'0')
+        + ":" +
+        String(now.getMinutes()).padStart(2,'0');
+
+    medicines.forEach(med=>{
+
+        if(currentTime === med.time){
+
+            alert(
+                `ถึงเวลารับประทานยา\n\n` +
+                `ยา: ${med.name}\n` +
+                `ขนาด: ${med.dose}`
+            );
         }
 
-        body {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+    });
 
-        .card {
-            background: white;
-            max-width: 700px;
-            width: 100%;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
+}
 
-        .profile-img {
-            width: 150px;
+setInterval(checkMedicineTime,60000);
+
+renderMedicines();
+
+</script>
+
+</body>
+</html>
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
